@@ -10,9 +10,9 @@ scrape_configs:
   - job_name: 'minitwit'
     scrape_interval: 15s
     static_configs: 
-      - targets: ['178.62.218.96:5000']
+      - targets: ['minitwit:5000']
   
   - job_name: 'minitwit-api'
     scrape_interval: 15s
     static_configs: 
-      - targets: ['178.62.218.96:5001']
+      - targets: ['minitwit-api:5001']

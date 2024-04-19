@@ -1,0 +1,36 @@
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.1.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.dev.yml'
+    networks:
+      - prom_net
+      - monitoring_net
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana-oss:10.4.2-ubuntu
+    ports:
+      - "3000:3000"
+    env_file:
+      - grafana/grafana.env
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    networks:
+      - monitoring_net
+
+networks:
+  prom_net:
+    name: prom_net
+    external: true
+  
+  monitoring_net:
+    name: monitoring_net
+    driver: bridge
